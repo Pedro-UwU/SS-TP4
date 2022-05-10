@@ -7,18 +7,16 @@ public class Oscillation {
     public double b; //Coeficiente friccion
     public Particle particle;
     private Integration integrationMethod;
-    private double initialX;
+    private final double initialX;
 
-    private double w;
-    private double beta;
-    private double A;
+    private final double w;
+    private final double beta;
 
     public NetForce force;
 
     public Oscillation(double k, double b, double A, double initialX, double mass) {
         this.k = k;
         this.b = b;
-        this.A = A;
         this.initialX = initialX;
         double w0 = Math.sqrt(k / mass);
         this.beta = b/(2* mass);
@@ -55,15 +53,20 @@ public class Oscillation {
         integrationMethod.setDelta_t(delta_t);
         osc.setIntegrationMethod(integrationMethod);
         int n = 0;
+        double error = 0;
         for (double t = 0; t < total_time; t+=delta_t, n++) {
             Particle particle = osc.particle;
             Vector2D analytic = osc.analyticSolution(t);
             Vector2D particlePos = particle.pos;
+            double diff = analytic.x - particlePos.x;
+            error += Math.pow(diff, 2);
             if (n % delta_to_print == 0) {
-                System.out.println("t: " + String.format("%.3f", t) + " - Analytic: " + String.format("%.3f", analytic.x) + " - Integration: " + String.format("%.3f", particlePos.x) + " - Diff: " + String.format("%.5f", Math.abs(analytic.x - particlePos.x)));
+                System.out.println("t: " + String.format("%.3f", t) + " - Analytic: " + String.format("%.3f", analytic.x) + " - Integration: " + String.format("%.3f", particlePos.x) + " - Diff: " + String.format("%.9f", Math.abs(diff)));
             }
             osc.Update();
         }
+        error /= n;
+        System.out.println("Error: " + error);
     }
 
 
