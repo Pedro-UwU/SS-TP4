@@ -1,6 +1,5 @@
 package Integrations;
 
-import Main.NetForce;
 import Main.Particle;
 import Main.Vector2D;
 
@@ -19,6 +18,8 @@ public abstract class Integration {
     public abstract Particle update();
 
     public static Vector2D euler(Particle p, double delta_t, Vector2D forceVector) {
-        return p.pos.add(p.vel.mul(delta_t)).add(forceVector.mul(Math.pow(delta_t, 2)));
+        return p.pos
+                .add(p.vel.mul(delta_t))
+                .add(forceVector.mul(Math.pow(delta_t, 2)/(2*p.mass)));
     }
 }
