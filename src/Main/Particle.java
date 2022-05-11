@@ -12,7 +12,7 @@ public class Particle {
     public int id;
     public NetForce force;
     public Vector2D prevPos = null;
-
+    public Vector2D prevForce = null;
     public Particle(double x, double y, double vx, double vy, double radius, double mass, NetForce force) {
         this.pos = new Vector2D(x, y);
         this.vel = new Vector2D(vx, vy);

@@ -1,5 +1,7 @@
 package Main;
 
+import Integrations.Beeman;
+import Integrations.Gear;
 import Integrations.Integration;
 import Integrations.Verlet;
 

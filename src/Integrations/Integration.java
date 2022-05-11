@@ -22,4 +22,7 @@ public abstract class Integration {
                 .add(p.vel.mul(delta_t))
                 .add(forceVector.mul(Math.pow(delta_t, 2)/(2*p.mass)));
     }
+    public static Vector2D eulerVel(Particle p, double delta_t, Vector2D forceVector) {
+        return p.vel.add(forceVector.mul(-delta_t / p.mass));
+    }
 }

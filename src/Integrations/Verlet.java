@@ -10,6 +10,7 @@ public class Verlet extends Integration{
 
     @Override
     public Particle update() {
+
         Vector2D force = particle.getNetForce();
         if (particle.prevPos == null) {
             particle.prevPos = Integration.euler(particle, -delta_t, force);
