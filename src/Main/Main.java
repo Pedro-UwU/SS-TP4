@@ -26,7 +26,7 @@ public class Main {
         double minV0 = 5E3;
         double maxV0 = 10E3;
         double total_t = 5;
-        int delta_to_print = 1;
+        int delta_to_print = 100;
         double delta_t = 1E-16;
         int n = 16;
         Radiation.run(delta_to_print, total_t, delta_t, n, d, q, m, k, minV0 , maxV0, new GearNoVel(), null, new OutputManager(null));

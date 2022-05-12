@@ -39,11 +39,11 @@ public class OutputManager {
         velocitiesX = new JSONArray();
         velocitiesY = new JSONArray();
         times = new JSONArray();
-        dynamic_data.append("posX", positionsX);
-        dynamic_data.append("posY", positionsY);
-        dynamic_data.append("velX", velocitiesX);
-        dynamic_data.append("velY", velocitiesY);
-        dynamic_data.append("t", times);
+        dynamic_data.put("posX", positionsX);
+        dynamic_data.put("posY", positionsY);
+        dynamic_data.put("velX", velocitiesX);
+        dynamic_data.put("velY", velocitiesY);
+        dynamic_data.put("t", times);
         static_data = new JSONObject();
     }
 

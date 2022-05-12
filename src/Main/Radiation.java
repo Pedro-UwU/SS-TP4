@@ -158,7 +158,7 @@ public class Radiation {
         Particle particle = r.particle;
         System.out.println(diff);
         int temp_n = 0;
-        for (double t = 0; t < total_time && !r.checkParticleAbsorbed() && r.checkParticleInside() && i<100; t+=delta_t, i++) {
+        for (double t = 0; t < total_time && !r.checkParticleAbsorbed() && r.checkParticleInside(); t+=delta_t, i++) {
             if (i % delta_to_print == 0) {
                 outputManager.saveSnapshot(particle, t);
             }
