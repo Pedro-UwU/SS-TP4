@@ -122,7 +122,7 @@ public class Radiation {
         //Recupero cuales eran los valores de i y j cuando cree las particulas
         int i = (int) Math.round(particle.pos.x / D);
         int j = (int) Math.round(particle.pos.y / D);
-        if( i < 0 || i > (N-1) || j < 0 || j > N)
+        if( i <0 || i> (N-1) || j < 0 || j > N)
             return false;
         Charge close = charges[i*N +j];
         return close.pos.distance(particle.pos) < 0.01 * D;
@@ -174,5 +174,8 @@ public class Radiation {
             outputManager.saveEndCondition("outside");
             System.out.println("Outside");
         }
+        System.out.println(i);
+        outputManager.saveDynamic();
+
     }
 }
