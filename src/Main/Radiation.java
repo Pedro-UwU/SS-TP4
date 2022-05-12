@@ -12,7 +12,6 @@ public class Radiation {
     private final double D,L;
     //magnitudes fisicas
     private final double Q , M,  k ;
-    private final Vector2D v0;
     private NetForce force;
     private Charge[] charges;
     public Particle particle;
@@ -27,14 +26,17 @@ public class Radiation {
         this.integrationMethod.update();
     }
 
-    public Radiation(int n , double d, double q, double m, double k, Vector2D v0 , Integration integrationMethod) {
+    public Charge[] getCharges(){
+        return this.charges;
+    }
+
+    public Radiation(int n , double d, double q, double m, double k, double minV0 , double maxV0 , Integration integrationMethod) {
         D = d;
         N = n;
         L = (N -1) * D;//tengo una particula que va al borde
         Q = q;
         M = m;
         this.k = k;
-        this.v0 = v0;
         this.integrationMethod = integrationMethod;
         charges = new Charge[N * N];
         createCharges();
@@ -50,22 +52,27 @@ public class Radiation {
             }
         };*/
 
-        this.particle = new Particle( getInitialParticlePos() , v0 , 0 , M , this::getNetForce);
+        this.particle = new Particle( getInitialParticlePos() , getV0(minV0, maxV0) , 0 , M , this::getNetForce);
 
     }
 
-    public Radiation(int n , double d, double q, double m, double k, Vector2D v0 , Integration integrationMethod , Vector2D initialPos) {
+
+    private Vector2D getV0(double minV0 , double maxV0){
+        double randomV0 = new Random(System.currentTimeMillis()).nextDouble() * (maxV0 - minV0)  + minV0 ;
+        return new Vector2D(randomV0 , 0 );
+    }
+
+    public Radiation(int n , double d, double q, double m, double k, double minV0 , double maxV0 , Integration integrationMethod , Vector2D initialPos) {
         D = d;
         N = n;
         L = (N -1) * D;//tengo una particula que va al borde
         Q = q;
         M = m;
         this.k = k;
-        this.v0 = v0;
         this.integrationMethod = integrationMethod;
         charges = new Charge[N * N];
         createCharges();
-        this.particle = new Particle( initialPos , v0 , 0 , M , this::getNetForce);
+        this.particle = new Particle( initialPos , getV0(minV0, maxV0) , 0 , M , this::getNetForce);
         System.out.println("ready");
     }
 
@@ -74,6 +81,7 @@ public class Radiation {
         double distance = new Random(System.currentTimeMillis()).nextDouble() * 2 - 1;
         return new Vector2D(0,L / 2 + (distance * D));
     }
+
     private void createCharges(){
         for( int i = 0 ; i < N ; i++){
             for(int j = 0 ; j < N ; j++){
@@ -132,16 +140,14 @@ public class Radiation {
         return particle.pos.x >= 0 && particle.pos.x <= (L+D) && particle.pos.y>=0 && particle.pos.y<=(L);
     }
 
-    public static void run(int delta_to_print, double total_time, double delta_t, int n , double d, double q, double m, double k, Vector2D v0 , Integration integrationMethod , Vector2D initialPos, OutputManager outputManager) {
+    public static void run(int delta_to_print, double total_time, double delta_t, int n , double d, double q, double m, double k, double minV0 , double maxV0 , Integration integrationMethod , Vector2D initialPos, OutputManager outputManager) {
         Radiation r;
         if(initialPos == null){
-            r = new Radiation(n , d , q , m , k , v0  , integrationMethod);
+            r = new Radiation(n , d , q , m , k , minV0 , maxV0  , integrationMethod);
         }else {
-            r = new Radiation( n , d,  q,  m,  k,v0 , integrationMethod , initialPos);
+            r = new Radiation( n , d,  q,  m,  k, minV0 , maxV0 , integrationMethod , initialPos);
         }
-
-
-
+        
         integrationMethod.setDelta_t(delta_t);
         integrationMethod.setParticle(r.particle);
         int i = 0;
@@ -152,8 +158,8 @@ public class Radiation {
         Particle particle = r.particle;
         System.out.println(diff);
         int temp_n = 0;
-        for (double t = 0; t < total_time && !r.checkParticleAbsorbed() && r.checkParticleInside(); t+=delta_t, i++) {
-            if (n % delta_to_print == 0) {
+        for (double t = 0; t < total_time && !r.checkParticleAbsorbed() && r.checkParticleInside() && i<100; t+=delta_t, i++) {
+            if (i % delta_to_print == 0) {
                 outputManager.saveSnapshot(particle, t);
             }
 
@@ -178,4 +184,7 @@ public class Radiation {
         outputManager.saveDynamic();
 
     }
+
+
+
 }

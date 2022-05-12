@@ -1,5 +1,6 @@
 package FileManager;
 
+import Main.Charge;
 import Main.Particle;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -25,7 +26,13 @@ public class OutputManager {
 
 
     public OutputManager(String name) {
-        this.name = name;
+        if(name == null){
+            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd--HH-mm-ss");
+            LocalDateTime time = LocalDateTime.now();
+            this.name = dtf.format(time);
+        }else {
+            this.name = name;
+        }
         dynamic_data = new JSONObject();
         positionsX = new JSONArray();
         positionsY = new JSONArray();
@@ -60,11 +67,6 @@ public class OutputManager {
     public void saveDynamic() {
         File dir = new File(DIRECTORY);
         dir.mkdir();
-        if(name == null){
-            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd--HH-mm-ss");
-            LocalDateTime time = LocalDateTime.now();
-            name = dtf.format(time);
-        }
         String filePath = DIRECTORY + "/" + name + ".json";
         File dir2 = new File(filePath);
         try {
@@ -72,6 +74,28 @@ public class OutputManager {
                 System.out.println("File created: " + dir2.getName());
                 SNAPSHOT_WRITER = new FileWriter(filePath);
                 SNAPSHOT_WRITER.write(dynamic_data.toString());
+                SNAPSHOT_WRITER.close();
+            }
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+    }
+
+    public void saveGrid(Charge[] charges){
+        String filePath = "board.json";
+        File dir2 = new File(filePath);
+        JSONObject board = new JSONObject();
+        for( Charge c : charges) {
+            board.append("charges" , c.charge);
+            board.append("posx" , c.pos.x);
+            board.append("posy" , c.pos.y);
+        }
+        try {
+            if (dir2.createNewFile()) {
+                System.out.println("File created: " + dir2.getName());
+                FileWriter boardWrite = new FileWriter(filePath);
+                boardWrite.write(board.toString());
+                boardWrite.close();
             }
         }catch (IOException e){
             e.printStackTrace();

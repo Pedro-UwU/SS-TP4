@@ -23,11 +23,13 @@ public class Main {
         double m = 1E-27;
         double d = 1E-8;
         Vector2D v0 = new Vector2D( 5E3 ,0);
+        double minV0 = 5E3;
+        double maxV0 = 10E3;
         double total_t = 5;
         int delta_to_print = 1;
         double delta_t = 1E-16;
         int n = 16;
-        Radiation.run(delta_to_print, total_t, delta_t, n, d, q, m, k, v0, new GearNoVel(), null, new OutputManager(null));
+        Radiation.run(delta_to_print, total_t, delta_t, n, d, q, m, k, minV0 , maxV0, new GearNoVel(), null, new OutputManager(null));
 
     }
 
