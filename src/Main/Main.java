@@ -24,7 +24,7 @@ public class Main {
         double d = 1E-8;
         Vector2D v0 = new Vector2D( 5E3 ,0);
         double total_t = 5;
-        int delta_to_print = 1;
+        int delta_to_print = 100;
         double delta_t = 1E-16;
         int n = 16;
         Radiation.run(delta_to_print, total_t, delta_t, n, d, q, m, k, v0, new GearNoVel(), null, new OutputManager(null));
