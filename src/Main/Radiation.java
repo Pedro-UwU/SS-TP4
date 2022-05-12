@@ -14,7 +14,7 @@ public class Radiation {
     private final Vector2D v0;
     private NetForce force;
     private Charge[] charges;
-    private Particle particle;
+    public Particle particle;
     private Integration integrationMethod;
 
 
@@ -65,7 +65,7 @@ public class Radiation {
         charges = new Charge[N * N];
         createCharges();
         this.particle = new Particle( initialPos , v0 , 0 , M , this::getNetForce);
-
+        System.out.println("ready");
     }
 
     //Auxiliares al constructor
@@ -106,12 +106,12 @@ public class Radiation {
     private double getElectrostaticEnergy(){
         double energy = 0;
         for( Charge c : charges){
-            energy += particle.pos.distance(c.pos) * c.charge;
+            energy += c.charge / particle.pos.distance(c.pos) ;
         }
         return energy * Q * k;
     }
 
-    private double geKineticEnergy(){
+    private double getKineticEnergy(){
         return 0.5 * particle.mass * Math.pow(particle.vel.magnitude() , 2);
     }
 
@@ -128,7 +128,7 @@ public class Radiation {
     }
 
     private boolean checkParticleInside(){
-        return particle.pos.x >= 0 && particle.pos.x <= L && particle.pos.y>=0 && particle.pos.y<=L;
+        return particle.pos.x >= -D && particle.pos.x <= (L+D) && particle.pos.y>=-D && particle.pos.y<=(L+D);
     }
 
     public static void run(int delta_to_print, double total_time, double delta_t, int n , double d, double q, double m, double k, Vector2D v0 , Integration integrationMethod , Vector2D initialPos ) {
@@ -139,11 +139,34 @@ public class Radiation {
             r = new Radiation( n , d,  q,  m,  k,v0 , integrationMethod , initialPos);
         }
 
-        for (double t = 0; t < total_time && !r.checkParticleAbsorbed() && r.checkParticleInside(); t+=delta_t, n++) {
+
+        integrationMethod.setDelta_t(delta_t);
+        integrationMethod.setParticle(r.particle);
+        int i = 0;
+        double initialEnergy = r.getKineticEnergy() + r.getElectrostaticEnergy();
+        double ke = r.getKineticEnergy();
+        double ee = r.getElectrostaticEnergy();
+        double diff = initialEnergy - ke - ee;
+        System.out.println(diff);
+        for (double t = 0; t < total_time && !r.checkParticleAbsorbed() && r.checkParticleInside(); t+=delta_t, i++) {
             Particle particle = r.particle;
-            Vector2D particlePos = particle.pos;
+
+           // if (n % delta_to_print == 0) {
+                ke = r.getKineticEnergy();
+                ee = r.getElectrostaticEnergy();
+                diff = initialEnergy - ke - ee;
+                System.out.println("t: " + String.format("%g", t) + " - Kinetic: " + String.format("%g", ke) + " - Potential: " + String.format("%g", ee) + " - Diff: " + String.format("%g", Math.abs(diff)));
+           // }
+
             r.Update();
         }
+        if(r.checkParticleAbsorbed()){
+            System.out.println("absorbed");
+        }
+        if(!r.checkParticleInside()){
+            System.out.println("outside");
+        }
+
     }
 
 

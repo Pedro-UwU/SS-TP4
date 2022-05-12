@@ -1,13 +1,11 @@
 package Main;
 
-import Integrations.Beeman;
-import Integrations.Gear;
-import Integrations.Integration;
-import Integrations.Verlet;
+import Integrations.*;
 
 public class Main {
     public static void main(String[] args) {
-        double delta_t = 0.0001;
+    /*
+        double delta_t = 1E-3;
         double k = 10000;
         double b = 100;
         double mass = 70;
@@ -16,6 +14,20 @@ public class Main {
         double total_t = 5;
         int delta_to_print = 1;
 
-        Oscillation.run(delta_to_print, total_t, delta_t, k, b, A, x0, mass, new Beeman());
+        Oscillation.run(delta_to_print, total_t, delta_t, k, b, A, x0, mass, new Gear());
+    */
+
+        double k = 1E10;
+        double q = 1E-19;
+        double m = 1E-27;
+        double d = 1E-8;
+        Vector2D v0 = new Vector2D( 5E3 ,0);
+        double total_t = 5;
+        int delta_to_print = 1;
+        double delta_t = 1E-16;
+        int n = 16;
+        Radiation.run(delta_to_print, total_t,delta_t, n , d, q, m, k, v0 ,new GearNoVel() , null );
+
     }
+
 }

@@ -5,6 +5,10 @@ import Main.Vector2D;
 
 public class Gear extends Integration {
     public Gear(){super();}
+    public Gear(Vector2D[] r){
+        super();
+        this.r =r ;
+    }
     public final double[] alpha = { 3.0/16 , 251.0/360 , 1.0 , 11.0/18 , 1.0/6 , 1.0/60 };
     public double[] pCoefficients = null;
     private Vector2D[] r = null;
