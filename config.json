@@ -1,12 +1,17 @@
 {
-  "Simulation": 1,
-  "Oscillation": {
-    "k": 1000,
-    "b": 100,
-    "mass": 70,
-    "A": 1,
-    "initial position": 1,
-    "total time": 5,
-    "integration": "Verlet"
+  "simulation": 1,
+  "config": {
+    "delta_t": 1E-16,
+    "total_t": 5.0,
+    "delta_t2_factor": 10,
+    "k": 1E10,
+    "m": 1E-28,
+    "d": 1E-8,
+    "q": 1E-19,
+    "n": 16,
+    "min_v0":5E3,
+    "max_v0":5E4,
+    "x0": 1,
+    "integration": "verlet"
   }
 }

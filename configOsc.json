@@ -1,0 +1,14 @@
+{
+  "simulation": 0,
+  "config": {
+    "delta_t": 1E-3,
+    "total_t": 5.0,
+    "delta_t2_factor": 1,
+    "k": 1000,
+    "m": 70,
+    "a": 1,
+    "x0": 1,
+    "b": 100,
+    "integration": "gear"
+  }
+}
