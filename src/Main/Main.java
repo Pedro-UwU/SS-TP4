@@ -23,8 +23,8 @@ public class Main {
         double m = 1E-27;
         double d = 1E-8;
         Vector2D v0 = new Vector2D( 5E3 ,0);
-        double minV0 = 5E3;
-        double maxV0 = 10E3;
+        double minV0 = 5E4;
+        double maxV0 = 5E4;
         double total_t = 5;
         int delta_to_print = 100;
         double delta_t = 1E-16;

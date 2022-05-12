@@ -87,8 +87,12 @@ public class Radiation {
     private void createCharges(){
         for( int i = 0 ; i < N ; i++){
             for(int j = 0 ; j < N ; j++){
-                double charge = Q;
-                this.Q = -Q;
+                double charge;
+                if ((i+j) % 2 == 0) {
+                    charge = -Q;
+                } else {
+                    charge = Q;
+                }
                 Vector2D position = new Vector2D( (i+1) * D , j * D);
                 charges[i * N + j] = new Charge(position , charge);
             }
@@ -131,11 +135,13 @@ public class Radiation {
 
     private boolean checkParticleAbsorbed(){
         //Recupero cuales eran los valores de i y j cuando cree las particulas
-        int i = (int) Math.round(particle.pos.x / D);
+        int i = (int) Math.round((particle.pos.x-D) / D);
         int j = (int) Math.round(particle.pos.y / D);
-        if( i <0 || i> (N-1) || j < 0 || j > N)
+        System.out.println("i: " + i + " - j: " + j);
+        if( i < 0 || i> (N-1) || j < 0 || j > N)
             return false;
         Charge close = charges[i*N +j];
+        System.out.println(close.pos.distance(particle.pos));
         return close.pos.distance(particle.pos) < 0.01 * D;
     }
 
