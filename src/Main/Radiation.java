@@ -11,7 +11,9 @@ public class Radiation {
     private final int N ;
     private final double D,L;
     //magnitudes fisicas
-    private final double Q , M,  k ;
+    private double Q;
+    private final double M;
+    private final double k ;
     private NetForce force;
     private Charge[] charges;
     public Particle particle;
@@ -85,7 +87,8 @@ public class Radiation {
     private void createCharges(){
         for( int i = 0 ; i < N ; i++){
             for(int j = 0 ; j < N ; j++){
-                double charge = (i+j % 2 == 0)? Q : -Q;
+                double charge = Q;
+                this.Q = -Q;
                 Vector2D position = new Vector2D( (i+1) * D , j * D);
                 charges[i * N + j] = new Charge(position , charge);
             }
@@ -147,7 +150,7 @@ public class Radiation {
         }else {
             r = new Radiation( n , d,  q,  m,  k, minV0 , maxV0 , integrationMethod , initialPos);
         }
-        
+        outputManager.saveGrid(r.charges);
         integrationMethod.setDelta_t(delta_t);
         integrationMethod.setParticle(r.particle);
         int i = 0;
