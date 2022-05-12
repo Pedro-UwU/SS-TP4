@@ -1,5 +1,6 @@
 package Main;
 
+import FileManager.OutputManager;
 import Integrations.*;
 
 public class Main {
@@ -26,7 +27,7 @@ public class Main {
         int delta_to_print = 1;
         double delta_t = 1E-16;
         int n = 16;
-        Radiation.run(delta_to_print, total_t,delta_t, n , d, q, m, k, v0 ,new GearNoVel() , null );
+        Radiation.run(delta_to_print, total_t, delta_t, n, d, q, m, k, v0, new GearNoVel(), null, new OutputManager());
 
     }
 

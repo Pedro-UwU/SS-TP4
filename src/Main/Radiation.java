@@ -1,5 +1,6 @@
 package Main;
 
+import FileManager.OutputManager;
 import Integrations.Integration;
 
 import java.util.Random;
@@ -77,7 +78,7 @@ public class Radiation {
         for( int i = 0 ; i < N ; i++){
             for(int j = 0 ; j < N ; j++){
                 double charge = (i+j % 2 == 0)? Q : -Q;
-                Vector2D position = new Vector2D( i * D , j * D);
+                Vector2D position = new Vector2D( (i+1) * D , j * D);
                 charges[i * N + j] = new Charge(position , charge);
             }
         }
@@ -121,23 +122,24 @@ public class Radiation {
         //Recupero cuales eran los valores de i y j cuando cree las particulas
         int i = (int) Math.round(particle.pos.x / D);
         int j = (int) Math.round(particle.pos.y / D);
-        if( i <0 || i>N || j < 0 || j > N)
+        if( i < 0 || i > (N-1) || j < 0 || j > N)
             return false;
         Charge close = charges[i*N +j];
         return close.pos.distance(particle.pos) < 0.01 * D;
     }
 
     private boolean checkParticleInside(){
-        return particle.pos.x >= -D && particle.pos.x <= (L+D) && particle.pos.y>=-D && particle.pos.y<=(L+D);
+        return particle.pos.x >= 0 && particle.pos.x <= (L+D) && particle.pos.y>=0 && particle.pos.y<=(L);
     }
 
-    public static void run(int delta_to_print, double total_time, double delta_t, int n , double d, double q, double m, double k, Vector2D v0 , Integration integrationMethod , Vector2D initialPos ) {
+    public static void run(int delta_to_print, double total_time, double delta_t, int n , double d, double q, double m, double k, Vector2D v0 , Integration integrationMethod , Vector2D initialPos, OutputManager outputManager) {
         Radiation r;
         if(initialPos == null){
             r = new Radiation(n , d , q , m , k , v0  , integrationMethod);
         }else {
             r = new Radiation( n , d,  q,  m,  k,v0 , integrationMethod , initialPos);
         }
+
 
 
         integrationMethod.setDelta_t(delta_t);
@@ -147,29 +149,30 @@ public class Radiation {
         double ke = r.getKineticEnergy();
         double ee = r.getElectrostaticEnergy();
         double diff = initialEnergy - ke - ee;
+        Particle particle = r.particle;
         System.out.println(diff);
+        int temp_n = 0;
         for (double t = 0; t < total_time && !r.checkParticleAbsorbed() && r.checkParticleInside(); t+=delta_t, i++) {
-            Particle particle = r.particle;
+            if (n % delta_to_print == 0) {
+                outputManager.saveSnapshot(particle, t);
+            }
 
            // if (n % delta_to_print == 0) {
                 ke = r.getKineticEnergy();
                 ee = r.getElectrostaticEnergy();
                 diff = initialEnergy - ke - ee;
-                System.out.println("t: " + String.format("%g", t) + " - Kinetic: " + String.format("%g", ke) + " - Potential: " + String.format("%g", ee) + " - Diff: " + String.format("%g", Math.abs(diff)));
+                System.out.println("temp_n: " + temp_n + " t: " + String.format("%g", t) + " - Kinetic: " + String.format("%g", ke) + " - Potential: " + String.format("%g", ee) + " - Diff: " + String.format("%g", Math.abs(diff)));
            // }
-
             r.Update();
+            temp_n++;
         }
         if(r.checkParticleAbsorbed()){
-            System.out.println("absorbed");
+            outputManager.saveEndCondition("absorbed");
+            System.out.println("Absorbed");
         }
-        if(!r.checkParticleInside()){
-            System.out.println("outside");
+        else if(!r.checkParticleInside()) {
+            outputManager.saveEndCondition("outside");
+            System.out.println("Outside");
         }
-
     }
-
-
-
-
 }
