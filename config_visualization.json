@@ -1,0 +1,6 @@
+{
+  "Name": "Test1",
+  "Delta_t": 1E-8,
+  "Deltas_per_frame": 100,
+  "View_path": false
+}
