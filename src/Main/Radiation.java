@@ -32,7 +32,7 @@ public class Radiation {
         return this.charges;
     }
 
-    public Radiation(int n , double d, double q, double m, double k, double minV0 , double maxV0 , Integration integrationMethod) {
+    public Radiation(int n , double d, double q, double m, double k, double minV0 , double maxV0 , Integration integrationMethod ) {
         D = d;
         N = n;
         L = (N -1) * D;//tengo una particula que va al borde
@@ -75,7 +75,6 @@ public class Radiation {
         charges = new Charge[N * N];
         createCharges();
         this.particle = new Particle( initialPos , getV0(minV0, maxV0) , 0 , M , this::getNetForce);
-        System.out.println("ready");
     }
 
     //Auxiliares al constructor
@@ -137,11 +136,9 @@ public class Radiation {
         //Recupero cuales eran los valores de i y j cuando cree las particulas
         int i = (int) Math.round((particle.pos.x-D) / D);
         int j = (int) Math.round(particle.pos.y / D);
-        System.out.println("i: " + i + " - j: " + j);
         if( i < 0 || i> (N-1) || j < 0 || j > N)
             return false;
         Charge close = charges[i*N +j];
-        System.out.println(close.pos.distance(particle.pos));
         return close.pos.distance(particle.pos) < 0.01 * D;
     }
 
@@ -149,10 +146,10 @@ public class Radiation {
         return particle.pos.x >= 0 && particle.pos.x <= (L+D) && particle.pos.y>=0 && particle.pos.y<=(L);
     }
 
-    public static void run(int delta_to_print, double total_time, double delta_t, int n , double d, double q, double m, double k, double minV0 , double maxV0 , Integration integrationMethod , Vector2D initialPos, OutputManager outputManager) {
+    public static void run(int delta_to_print, double total_time, double delta_t, int n , double d, double q, double m, double k, double minV0 , double maxV0 , Integration integrationMethod , Vector2D initialPos, OutputManager outputManager ) {
         Radiation r;
         if(initialPos == null){
-            r = new Radiation(n , d , q , m , k , minV0 , maxV0  , integrationMethod);
+            r = new Radiation(n , d , q , m , k , minV0 , maxV0  , integrationMethod );
         }else {
             r = new Radiation( n , d,  q,  m,  k, minV0 , maxV0 , integrationMethod , initialPos);
         }
@@ -167,21 +164,24 @@ public class Radiation {
         Particle particle = r.particle;
         System.out.println(diff);
         int temp_n = 0;
+        double last_t = 0;
         for (double t = 0; t < total_time && !r.checkParticleAbsorbed() && r.checkParticleInside(); t+=delta_t, i++) {
             if (i % delta_to_print == 0) {
                 outputManager.saveSnapshot(particle, t);
             }
 
-           // if (n % delta_to_print == 0) {
-                ke = r.getKineticEnergy();
-                ee = r.getElectrostaticEnergy();
-                diff = initialEnergy - ke - ee;
-                System.out.println("temp_n: " + temp_n + " t: " + String.format("%g", t) + " - Kinetic: " + String.format("%g", ke) + " - Potential: " + String.format("%g", ee) + " - Diff: " + String.format("%g", Math.abs(diff)));
-           // }
+
             r.Update();
             temp_n++;
+            last_t = t;
         }
+        ke = r.getKineticEnergy();
+        ee = r.getElectrostaticEnergy();
+        diff = initialEnergy - ke - ee;
+        System.out.println("temp_n: " + temp_n + " t: " + String.format("%g", last_t ) + " - Kinetic: " + String.format("%g", ke) + " - Potential: " + String.format("%g", ee) + " - Diff: " + String.format("%g", Math.abs(diff)));
+
         if(r.checkParticleAbsorbed()){
+
             outputManager.saveEndCondition("absorbed");
             System.out.println("Absorbed");
         }
