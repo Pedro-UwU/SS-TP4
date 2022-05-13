@@ -159,6 +159,7 @@ public class Radiation {
         integrationMethod.setParticle(r.particle);
         int i = 0;
         double initialEnergy = r.getKineticEnergy() + r.getElectrostaticEnergy();
+        System.out.println(initialEnergy);
         double ke = r.getKineticEnergy();
         double ee = r.getElectrostaticEnergy();
         double diff = initialEnergy - ke - ee;

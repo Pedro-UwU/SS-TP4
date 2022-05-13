@@ -5,14 +5,14 @@
     "delta_t": 1E-16,
     "total_t": 5.0,
     "delta_t2_factor": 10,
+    "n": 16,
     "k": 1E10,
-    "m": 1E-28,
+    "m": 1E-27,
     "d": 1E-8,
     "q": 1E-19,
     "min_v0":5E3,
     "max_v0":5E4,
     "x0": 1,
-    "n": 16,
     "integration": "gear"
   }
 }
