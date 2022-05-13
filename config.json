@@ -1,16 +1,16 @@
 {
   "simulation": 1,
   "config": {
-    "name": "test",
-    "delta_t": 1E-16,
+    "name": "test_vels9",
+    "delta_t": 1E-17,
     "total_t": 5.0,
-    "delta_t2_factor": 10,
     "n": 16,
+    "delta_t2_factor": 10,
     "k": 1E10,
     "m": 1E-27,
     "d": 1E-8,
     "q": 1E-19,
-    "min_v0":5E3,
+    "min_v0":5E4,
     "max_v0":5E4,
     "x0": 1,
     "integration": "gear"

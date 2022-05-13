@@ -54,6 +54,7 @@ def main():
         col = ['lightcoral', 'cornflowerblue', 'orange', 'mediumseagreen', 'paleturquoise']
         bars = plt.bar(wall_per_vel_relative[v].keys(), wall_per_vel_relative[v].values(), color=col)
         ax.bar_label(bars)
+        plt.ylabel("Proporción de escapes totales")
         plt.show()
 
 
