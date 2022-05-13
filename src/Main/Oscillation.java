@@ -1,5 +1,6 @@
 package Main;
 
+import FileManager.OscillationOutputManager;
 import Integrations.Integration;
 
 public class Oscillation {
@@ -47,13 +48,14 @@ public class Oscillation {
         return new Vector2D(posX, 0);
     }
 
-    public static void run(int delta_to_print, double total_time, double delta_t, double k, double b, double A, double initialX, double mass, Integration integrationMethod) {
+    public static void run(int delta_to_print, double total_time, double delta_t, double k, double b, double A, double initialX, double mass, Integration integrationMethod, OscillationOutputManager outputManager) {
         Oscillation osc = new Oscillation(k, b, A, initialX, mass);
         integrationMethod.setParticle(osc.particle);
         integrationMethod.setDelta_t(delta_t);
         osc.setIntegrationMethod(integrationMethod);
         int n = 0;
         double error = 0;
+        outputManager.setStatic(k, b, mass, A);
         for (double t = 0; t < total_time; t+=delta_t, n++) {
             Particle particle = osc.particle;
             Vector2D analytic = osc.analyticSolution(t);
@@ -63,8 +65,11 @@ public class Oscillation {
             if (n % delta_to_print == 0) {
                 System.out.println("t: " + String.format("%.3f", t) + " - Analytic: " + String.format("%.3f", analytic.x) + " - Integration: " + String.format("%.3f", particlePos.x) + " - Diff: " + String.format("%.9f", Math.abs(diff)));
             }
+            outputManager.saveSnapshot(particle, t);
             osc.Update();
         }
+        outputManager.dumpDynamic();
+        outputManager.dumpStatic();
         error /= n;
         System.out.println("Error: " + error);
     }
