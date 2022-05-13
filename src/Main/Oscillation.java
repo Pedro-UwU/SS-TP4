@@ -48,7 +48,7 @@ public class Oscillation {
         return new Vector2D(posX, 0);
     }
 
-    public static void run(int delta_to_print, double total_time, double delta_t, double k, double b, double A, double initialX, double mass, Integration integrationMethod, OscillationOutputManager outputManager) {
+    public static void run(int delta_to_print, double total_time, double delta_t, double k, double b, double A, double initialX, double mass, Integration integrationMethod, OscillationOutputManager outputManager, boolean saveAnalytic) {
         Oscillation osc = new Oscillation(k, b, A, initialX, mass);
         integrationMethod.setParticle(osc.particle);
         integrationMethod.setDelta_t(delta_t);
@@ -65,7 +65,12 @@ public class Oscillation {
             if (n % delta_to_print == 0) {
                 System.out.println("t: " + String.format("%.3f", t) + " - Analytic: " + String.format("%.3f", analytic.x) + " - Integration: " + String.format("%.3f", particlePos.x) + " - Diff: " + String.format("%.9f", Math.abs(diff)));
             }
-            outputManager.saveSnapshot(particle, t);
+            if (saveAnalytic) {
+                Particle aux = new Particle(analytic, new Vector2D(0, 0), 1, 1, osc.particle.force);
+                outputManager.saveSnapshot(aux, t);
+            } else {
+                outputManager.saveSnapshot(particle, t);
+            }
             osc.Update();
         }
         outputManager.dumpDynamic();
