@@ -25,6 +25,8 @@ def main():
     plt.plot(t, pos_beeman, label='Beeman')
     plt.plot(t, pos_gear, label='Gear')
     plt.plot(t, pos_analytic, label='Analytic')
+    plt.xlabel("Tiempo (seg)")
+    plt.ylabel("Posición (metros)")
     plt.legend()
     plt.show()
 
@@ -40,6 +42,7 @@ def main():
     values = errors.values()
 
     plt.bar(names, values)
+    plt.ylabel("Error cuadrático medio")
     ax.set_yscale('log')
     plt.show()
     print(errors)

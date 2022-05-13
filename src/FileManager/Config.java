@@ -14,9 +14,10 @@ public class Config {
     public static double K , B , MASS , A , X0 , TOTAL_T , DELTA_T;
     public static double Q , D , MIN_V0 , MAX_V0;
     public static int DELTA_T2_FACTOR , N ;
-    private static final String config_path = "./config.json";
+    private static final String config_path = "../config.json";
     private static String INTEGRATION;
     public static int SIM;
+    public static String NAME;
     /*
     double k = 1E10;
     double q = 1E-19;
@@ -72,6 +73,7 @@ public class Config {
         X0 = sim.getDouble("x0");
         B = sim.getDouble("b");
         INTEGRATION = sim.getString("integration");
+        NAME = sim.getString("name");
     }
 
 
