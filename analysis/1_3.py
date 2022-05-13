@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 import json
 
 def main():
+    plt.rcParams.update({'font.size': 20})
     errors = {}
     integrations = ['verlet', 'gear', 'beeman']
     steps = [1, 2, 3, 4, 5, 6]

@@ -2,6 +2,7 @@ import matplotlib.pyplot as plt
 import json
 
 def main():
+    plt.rcParams.update({'font.size': 20})
     verlet = open('../SS-TP4/results/Oscillation/Verlet/dynamic.json')
     beeman = open('../SS-TP4/results/Oscillation/Beeman/dynamic.json')
     gear = open('../SS-TP4/results/Oscillation/Gear/dynamic.json')

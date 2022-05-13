@@ -20,7 +20,7 @@ public class Ejercicio2_2 {
                 double initialY = L / 2;
                 initialY += Config.D * displacement;
                 Vector2D initPos = new Vector2D(0, initialY);
-                String runName = "ej2_2-" + velocities[i] + "_run" + j + ".json";
+                String runName = "a_ej2_2-" + velocities[i] + "_run" + j;
                 Radiation.run(Config.DELTA_T2_FACTOR, Config.TOTAL_T, Config.DELTA_T, Config.N, Config.D, Config.Q, Config.MASS, Config.K, velocities[i], velocities[i], Config.getIntegration(), initPos, new OutputManager(runName));
             }
         }

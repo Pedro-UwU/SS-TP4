@@ -1,12 +1,11 @@
-from cProfile import label
 import json
 import math
 import statistics
-from turtle import color
-from matplotlib import markers
 import matplotlib.pylab as plt
 
 def main():
+    plt.rcParams.update({'font.size': 20})
+
     velocities = [5000, 16250, 27500, 38750, 50000]
     runs = 200
     means = []
@@ -28,6 +27,7 @@ def main():
         means.append(mean)
         stdevs.append(stdev)
     
+    plt.figure(figsize=(8, 6))
     plt.plot(velocities, means, color='r')
     plt.errorbar(velocities, means, yerr=stdevs, fmt='o', color='r', ecolor='lightcoral', elinewidth=3, capsize=0)
     plt.xticks(velocities)
