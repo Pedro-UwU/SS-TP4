@@ -8,16 +8,16 @@ from matplotlib import markers
 import matplotlib.pylab as plt
 
 def main():
+    plt.rcParams.update({'font.size': 20})
+
     velocities = [5000, 16250, 27500, 38750, 50000]
-    runs = 5
-    means = []
-    stdevs = []
+    runs = 200
     lengthByVel= []
     for v in velocities:
         mean = 0
         lengths = []
         for i in range(runs):
-            file = open(f'../results/Radiation/ej2_2-{v}_run{i}.json/dynamic.json')
+            file = open(f'../SS-TP4/results/Radiation/ej2_2-{v}_run{i}.json/dynamic.json')
             json_data = json.load(file)
             file.close()
             if(json_data['end'][0] == 'absorbed'):
@@ -29,13 +29,18 @@ def main():
         #stdev = statistics.stdev(lengths)
         #means.append(mean)
         #stdevs.append(stdev)
-    print(lengthByVel)
-    bars , binEdges = np.histogram(lengthByVel[0][1] , bins=10)
+    print(lengthByVel[0])
     
-    plt.hist(bars, bins=binEdges)
+    total_bins = 20
+    for vels in lengthByVel:
+        histogram, bins = np.histogram(vels[1], bins=total_bins, range=(min(vels[1]), max(vels[1])))
+        plt.plot(bins[1:], histogram/(len(vels[1])), label=f'Vel = {vels[0]}')
+    
+    # plt.hist(lengthByVel[0][1], bins=total_bins)
     plt.grid()
-    plt.xlabel("Recorrido")
-    plt.ylabel("Frecuencia")
+    plt.xlabel("Recorrido (m)")
+    plt.ylabel("Probabilidad")
+    plt.legend()
     plt.show()
 
 def calculate_path_len(positions) -> float:
