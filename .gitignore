@@ -102,3 +102,4 @@ results
 .idea
 SS-TP4.iml
 SS-TP4
+analysis/__pycache__/

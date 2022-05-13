@@ -37,10 +37,10 @@ def main():
     errors = [ np.std(p)/math.sqrt(len(p)) for p in promedioPorDt]
     promedios = [np.mean(p) for p in promedioPorDt]
     print(deltas)
-    
+    print(promedios)
     plt.errorbar( deltas, promedios , fmt='-o' , yerr=errors , ecolor = "m" , capsize=5)
     plt.xlabel('Delta(s)')
-    plt.ylabel('Diferencia relativa')
+    plt.ylabel('Diferencia relativa de Energía')
     plt.xscale('log')
     plt.yscale('log')
     plt.grid(alpha=0.25)
