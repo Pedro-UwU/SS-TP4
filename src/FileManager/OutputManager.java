@@ -13,7 +13,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 
 public class OutputManager {
-    private final static String DIRECTORY = "./results";
+    private final static String DIRECTORY = "./results/Radiation";
     private static FileWriter SNAPSHOT_WRITER;
     JSONObject dynamic_data;
     JSONObject static_data;
@@ -45,12 +45,9 @@ public class OutputManager {
         dynamic_data.put("velY", velocitiesY);
         dynamic_data.put("t", times);
         static_data = new JSONObject();
+        new File(DIRECTORY).mkdir();
     }
 
-
-    public void setStatic(HashMap<String, Object> objects) {
-
-    }
 
     public void saveSnapshot(Particle p, double t) {
         positionsX.put(p.pos.x);
@@ -58,6 +55,7 @@ public class OutputManager {
         velocitiesX.put(p.vel.x);
         velocitiesY.put(p.vel.y);
         times.put(t);
+
     }
 
     public void saveEndCondition(String endCondition) {
@@ -65,15 +63,31 @@ public class OutputManager {
     }
 
     public void saveDynamic() {
-        File dir = new File(DIRECTORY);
+        File dir = new File(DIRECTORY + "/" + name + "/");
         dir.mkdir();
-        String filePath = DIRECTORY + "/" + name + ".json";
+        String filePath = DIRECTORY + "/" + name + "/" + "dynamic.json";
+        save_json(filePath, dynamic_data);
+    }
+
+    public void saveStatic(double delta_t, double k, double Q, double M, double D) {
+        static_data.put("delta_t", delta_t);
+        static_data.put("k", k);
+        static_data.put("Q", Q);
+        static_data.put("M", M);
+        static_data.put("D", D);
+        File dir = new File(DIRECTORY + "/" + name + "/");
+        dir.mkdir();
+        String filePath = DIRECTORY + "/" + name + "/" + "static.json";
+        save_json(filePath, static_data);
+    }
+
+    private void save_json(String filePath, JSONObject static_data) {
         File dir2 = new File(filePath);
         try {
             if (dir2.createNewFile()) {
                 System.out.println("File created: " + dir2.getName());
                 SNAPSHOT_WRITER = new FileWriter(filePath);
-                SNAPSHOT_WRITER.write(dynamic_data.toString());
+                SNAPSHOT_WRITER.write(static_data.toString());
                 SNAPSHOT_WRITER.close();
             }
         }catch (IOException e){

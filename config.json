@@ -1,17 +1,18 @@
 {
   "simulation": 1,
   "config": {
+    "name": "test",
     "delta_t": 1E-16,
     "total_t": 5.0,
-    "delta_t2_factor": 10,
+    "delta_t2_factor": 1,
     "k": 1E10,
     "m": 1E-28,
     "d": 1E-8,
     "q": 1E-19,
-    "n": 16,
     "min_v0":5E3,
     "max_v0":5E4,
     "x0": 1,
-    "integration": "verlet"
+    "n": 16,
+    "integration": "gear"
   }
 }

@@ -35,7 +35,7 @@ public class Main {
         double delta_t = 1E-16;
         int n = 16;
         Radiation.run(Config.DELTA_T2_FACTOR, Config.TOTAL_T, Config.DELTA_T, Config.N,
-                Config.D, Config.Q, Config.MASS, Config.K, Config.MIN_V0 ,Config.MAX_V0, Config.getIntegration(), null, new OutputManager(null));
+                Config.D, Config.Q, Config.MASS, Config.K, Config.MIN_V0 ,Config.MAX_V0, Config.getIntegration(), null, new OutputManager(Config.NAME));
 
     }
 

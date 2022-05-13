@@ -1,6 +1,7 @@
 {
   "simulation": 1,
   "config": {
+    "name": "test",
     "delta_t": 1E-16,
     "total_t": 5.0,
     "delta_t2_factor": 10,

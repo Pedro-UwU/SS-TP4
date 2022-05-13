@@ -117,6 +117,7 @@ public class Config {
         N = sim.getInt("n");
         MIN_V0 = sim.getDouble("min_v0");
         MAX_V0 = sim.getDouble("max_v0");
+        NAME = sim.getString("name");
         INTEGRATION = sim.getString("integration");
     }
 }
