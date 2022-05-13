@@ -154,6 +154,7 @@ public class Radiation {
             r = new Radiation( n , d,  q,  m,  k, minV0 , maxV0 , integrationMethod , initialPos);
         }
         outputManager.saveGrid(r.charges);
+        outputManager.saveStatic(delta_t, k, q, m, r.D);
         integrationMethod.setDelta_t(delta_t);
         integrationMethod.setParticle(r.particle);
         int i = 0;

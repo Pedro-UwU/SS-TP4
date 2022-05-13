@@ -4,7 +4,7 @@
     "name": "test",
     "delta_t": 1E-16,
     "total_t": 5.0,
-    "delta_t2_factor": 1,
+    "delta_t2_factor": 10,
     "k": 1E10,
     "m": 1E-28,
     "d": 1E-8,
