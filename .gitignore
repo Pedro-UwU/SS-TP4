@@ -103,3 +103,5 @@ results
 SS-TP4.iml
 SS-TP4
 analysis/__pycache__/
+visualization/data/
+*.mp4

@@ -14,7 +14,7 @@ def main():
         mean = 0
         lengths = []
         for i in range(runs):
-            file = open(f'../SS-TP4/results/Radiation/ej2_2-{v}_run{i}.json/dynamic.json')
+            file = open(f'../SS-TP4/results/Radiation/a_ej2_2-{v}_run{i}/dynamic.json')
             json_data = json.load(file)
             file.close()
             

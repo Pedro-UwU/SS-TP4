@@ -23,7 +23,7 @@ def main():
         shortestFilename = ''
         shortest = 100
         for i in range(runs):
-            file = open(f'../SS-TP4/results/Radiation/ej2_2-{v}_run{i}.json/dynamic.json')
+            file = open(f'../SS-TP4/results/Radiation/a_ej2_2-{v}_run{i}/dynamic.json')
             json_data = json.load(file)
             file.close()
             if(json_data['end'][0] == 'absorbed'):
@@ -45,11 +45,11 @@ def main():
         #stdevs.append(stdev)
     print(lengthByVel[0])
     print(topLong)
-    print(topLong)
-    total_bins = 20
+    print(topShort)
+    total_bins = 7
     for vels in lengthByVel:
         histogram, bins = np.histogram(vels[1], bins=total_bins, range=(min(vels[1]), max(vels[1])))
-        plt.plot(bins[1:], histogram/(len(vels[1])), label=f'Vel = {vels[0]}')
+        plt.plot(bins[1:], histogram/(len(vels[1])), label=f'Vel = {vels[0]}m/s')
     
     # plt.hist(lengthByVel[0][1], bins=total_bins)
     plt.grid()
